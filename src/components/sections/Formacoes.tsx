@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import styled, { keyframes } from 'styled-components'
+import { FormacaoModal } from '@/components/modalFormacoes'
+import type { FormacaoModalData } from '@/components/modalFormacoes'
 import { useGsapContext } from '@/hooks/useGsapContext'
 import { gsap } from '@/lib/gsap'
-import { formacoes } from '@/lib/content'
+import { formacoesModal } from '@/lib/content'
 import { Container, SystemTag } from '@/components/ui/Shared'
 import { withOpacity } from '@/styles/theme'
 
@@ -160,7 +163,7 @@ const Code = styled.span`
   }
   
   &::before {
-    content: 'LVL '; /* Prefixo de fase */
+    content: 'LVL ';
     font-size: 12px;
     opacity: 0.7;
   }
@@ -236,15 +239,24 @@ const Duracao = styled.span`
   }
 `
 
-// --- Componente Principal ---
 
-/**
- * Aqui a numeração (01/02/03/04) É justificada — diferente do padrão
- * genérico de "numbered markers decorativos". Não é decoração: é a ordem
- * real da trilha do curso. Módulo 02 depende do 01. A numeração carrega
- * informação verdadeira (sequência de pré-requisitos).
- */
 export function Formacoes() {
+
+  const [selectedModule, setSelectedModule] =
+    useState<FormacaoModalData | null>(null)
+
+  const [modalOpen, setModalOpen] = useState(false)
+
+  function openModule(module: FormacaoModalData) {
+    setSelectedModule(module)
+    setModalOpen(true)
+  }
+
+  function closeModule() {
+    setModalOpen(false)
+    setSelectedModule(null)
+  }
+
   const scope = useGsapContext<HTMLDivElement>(() => {
     // Animação GSAP mais "dura" (steps) para emular o loading de telas antigas
     gsap.utils.toArray<HTMLElement>('.formacao-card').forEach((card, i) => {
@@ -254,9 +266,9 @@ export function Formacoes() {
         duration: 0.4,
         ease: 'steps(5)', // Ease em degraus imita o framerate baixo
         delay: i * 0.15,
-        scrollTrigger: { 
-            trigger: card, 
-            start: 'top 90%' 
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 90%'
         },
       })
     })
@@ -270,8 +282,12 @@ export function Formacoes() {
           <Title>Quatro módulos. Uma ordem que faz sentido.</Title>
 
           <List>
-            {formacoes.map((f) => (
-              <Row key={f.id} className="formacao-card">
+            {formacoesModal.map((f) => (
+              <Row
+                key={f.id}
+                className="formacao-card"
+                onClick={() => openModule(f)}
+              >
                 <Code>{f.codigo}</Code>
                 <div>
                   <Titulo>{f.titulo}</Titulo>
@@ -288,6 +304,11 @@ export function Formacoes() {
           </List>
         </ContentWrapper>
       </Container>
+      <FormacaoModal
+        open={modalOpen}
+        formacao={selectedModule}
+        onClose={closeModule}
+      />
     </Section>
   )
 }

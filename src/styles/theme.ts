@@ -24,12 +24,6 @@ export const theme = {
 } as const
 
 export type Theme = typeof theme
-
-/**
- * Helper de opacidade: em Tailwind a gente escrevia `text-paper/70`.
- * Em styled-components não existe isso pronto, então centralizamos aqui
- * — evita reimplementar hex-to-rgba em cada componente.
- */
 export function withOpacity(hex: string, opacity: number) {
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)

@@ -77,10 +77,6 @@ const AvatarWrap = styled.div`
   margin-bottom: 24px;
 `
 
-/* Anel de energia: um conic-gradient girando ao redor do avatar. Fica
-   invisível até o hover — não é decoração de fundo contínua, é resposta
-   à interação, o que é mais barato (só roda enquanto alguém está de
-   fato olhando pra esse card específico) e mais elegante. */
 const AvatarRing = styled.div`
   position: absolute;
   inset: -4px;
@@ -175,10 +171,6 @@ export function Tutores() {
       return
     }
 
-    // Entrada em "flip 3D": o card gira no eixo Y a partir da borda
-    // esquerda (transformOrigin), como se estivesse abrindo — diferente
-    // do blur-to-focus do Depoimentos.tsx, pra dar variedade de verdade
-    // entre seções, não repetir a mesma assinatura em todo lugar.
     gsap.from('.tutor-card', {
       rotationY: -75,
       transformPerspective: 800,

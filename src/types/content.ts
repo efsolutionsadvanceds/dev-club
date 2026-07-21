@@ -22,8 +22,6 @@ export interface Depoimento {
 export interface Empresa {
   id: string
   nome: string
-  /** Cor de destaque própria da empresa no site — inspirada na percepção
-   * geral da marca, não uma reprodução exata de identidade visual oficial. */
   cor: string
   alunosContratados: number
 }

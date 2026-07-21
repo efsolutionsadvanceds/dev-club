@@ -6,6 +6,7 @@ import { withOpacity } from '@/styles/theme'
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
   variant?: 'primary' | 'ghost'
+  magnetic?: boolean
 }
 
 const StyledButton = styled.button<{ $variant: 'primary' | 'ghost' }>`
@@ -44,18 +45,15 @@ const StyledButton = styled.button<{ $variant: 'primary' | 'ghost' }>`
         `}
 `
 
-/**
- * Botão com efeito "magnético": segue o cursor levemente quando o mouse
- * está por perto. É a única micro-interação de hover "extra" que usamos —
- * escolhida porque o CTA principal é o elemento de maior conversão da
- * página. Não aplicamos isso em todo botão da página, viraria ruído
- * (a ousadia visual fica concentrada num lugar só).
- */
-export function Button({ children, variant = 'primary', ...props }: ButtonProps) {
-  const ref = useMagnetic<HTMLButtonElement>(0.4)
+export function Button({ children, variant = 'primary', magnetic = false, ...props }: ButtonProps) {
+  const ref = useMagnetic<HTMLButtonElement>(magnetic ? 0.4 : 0)
 
   return (
-    <StyledButton ref={ref} $variant={variant} {...props}>
+    <StyledButton
+      ref={ref}
+      $variant={variant}
+      {...props}
+    >
       {children}
     </StyledButton>
   )

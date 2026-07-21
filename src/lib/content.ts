@@ -1,4 +1,5 @@
 import type { Formacao, Depoimento, Empresa, Tutor, Metrica } from '@/types/content'
+import type { FormacaoModalData } from '@/components/modalFormacoes'
 
 export const metricas: Metrica[] = [
   { id: 'm1', target: 12400, suffix: '+', label: 'alunos ativos' },
@@ -127,4 +128,222 @@ export const tutores: Tutor[] = [
     empresa: 'ex-Gupy',
     especialidade: 'Empregabilidade & RH Tech',
   },
+]
+
+export const formacoesModal: FormacaoModalData[] = [
+  {
+    id: 1,
+    codigo: '01',
+    titulo: 'Fundamentos & Lógica',
+    subtitulo: 'Seu primeiro checkpoint na jornada.',
+    descricao:
+      'Você aprenderá a pensar como um desenvolvedor antes mesmo de escrever grandes quantidades de código. Neste módulo você desenvolve raciocínio lógico, aprende JavaScript do zero e entende como funciona a base de qualquer software moderno.',
+
+    duracao: '6 semanas',
+    dificuldade: 1,
+    xp: 350,
+
+    habilidades: [
+      'Pensamento lógico',
+      'Algoritmos',
+      'Variáveis',
+      'Funções',
+      'Condicionais',
+      'Loops'
+    ],
+
+    stack: [
+      'JavaScript',
+      'Git',
+      'Lógica de Programação'
+    ],
+
+    missoes: [
+      {
+        titulo: 'Primeiro Programa',
+        descricao: 'Criar seu primeiro algoritmo funcionando.'
+      },
+      {
+        titulo: 'Desafio de Lógica',
+        descricao: 'Resolver problemas reais utilizando programação.'
+      },
+      {
+        titulo: 'Versionamento',
+        descricao: 'Aprender Git e publicar seu primeiro repositório.'
+      }
+    ],
+
+    recompensa: {
+      titulo: 'Base Desbloqueada',
+      descricao:
+        'Agora você possui a base necessária para construir qualquer aplicação.'
+    },
+
+    personagem: {
+      nome: 'Duck Rookie',
+      sprite: '/animation/duck-hero.json'
+    }
+  },
+
+  {
+    id: 2,
+    codigo: '02',
+    titulo: 'Front-end Profissional',
+    subtitulo: 'Construindo interfaces reais.',
+    descricao:
+      'Você aprende React, TypeScript e arquitetura de componentes criando interfaces modernas iguais às utilizadas pelas maiores empresas do mercado.',
+
+    duracao: '8 semanas',
+    dificuldade: 2,
+    xp: 700,
+
+    habilidades: [
+      'React',
+      'Componentização',
+      'Hooks',
+      'Estado',
+      'Responsividade',
+      'Boas práticas'
+    ],
+
+    stack: [
+      'React',
+      'TypeScript',
+      'Tailwind CSS'
+    ],
+
+    missoes: [
+      {
+        titulo: 'Landing Page',
+        descricao: 'Construir uma landing page profissional.'
+      },
+      {
+        titulo: 'Dashboard',
+        descricao: 'Criar um painel administrativo completo.'
+      },
+      {
+        titulo: 'Projeto Responsivo',
+        descricao: 'Adaptar aplicações para qualquer dispositivo.'
+      }
+    ],
+
+    recompensa: {
+      titulo: 'Front-end Master',
+      descricao:
+        'Você estará preparado para desenvolver interfaces profissionais.'
+    },
+
+    personagem: {
+      nome: 'Earth Builder',
+      sprite: '/animation/earth-hero.json'
+    }
+  },
+
+  {
+    id: 3,
+    codigo: '03',
+    titulo: 'Back-end & APIs',
+    subtitulo: 'O cérebro da aplicação.',
+    descricao:
+      'Você aprenderá a criar APIs, conectar banco de dados, autenticar usuários e estruturar aplicações robustas utilizadas em produção.',
+
+    duracao: '8 semanas',
+    dificuldade: 3,
+    xp: 900,
+
+    habilidades: [
+      'Node.js',
+      'Express',
+      'Banco de Dados',
+      'Autenticação',
+      'JWT',
+      'APIs REST'
+    ],
+
+    stack: [
+      'Node.js',
+      'PostgreSQL',
+      'REST APIs'
+    ],
+
+    missoes: [
+      {
+        titulo: 'API Completa',
+        descricao: 'Construir uma API REST profissional.'
+      },
+      {
+        titulo: 'Login Seguro',
+        descricao: 'Implementar autenticação JWT.'
+      },
+      {
+        titulo: 'Banco de Dados',
+        descricao: 'Persistir dados utilizando PostgreSQL.'
+      }
+    ],
+
+    recompensa: {
+      titulo: 'Backend Engineer',
+      descricao:
+        'Você domina a construção do servidor e da lógica de negócio.'
+    },
+
+    personagem: {
+      nome: 'Loading Server Guardian',
+      sprite: '/animation/loading-hero.json'
+    }
+  },
+
+  {
+    id: 4,
+    codigo: '04',
+    titulo: 'Empregabilidade & Mercado',
+    subtitulo: 'Hora de entrar no jogo.',
+    descricao:
+      'Você aprenderá como montar um portfólio forte, preparar currículo, GitHub, LinkedIn e enfrentar entrevistas técnicas exatamente como acontecem nas empresas.',
+
+    duracao: '4 semanas',
+    dificuldade: 2,
+    xp: 600,
+
+    habilidades: [
+      'Portfólio',
+      'LinkedIn',
+      'GitHub',
+      'Currículo',
+      'Entrevistas',
+      'Soft Skills'
+    ],
+
+    stack: [
+      'Portfólio',
+      'Entrevista Técnica',
+      'LinkedIn'
+    ],
+
+    missoes: [
+      {
+        titulo: 'Portfólio',
+        descricao: 'Publicar seus melhores projetos.'
+      },
+      {
+        titulo: 'LinkedIn',
+        descricao: 'Criar um perfil competitivo.'
+      },
+      {
+        titulo: 'Mock Interview',
+        descricao: 'Simular entrevistas técnicas.'
+      }
+    ],
+
+    recompensa: {
+      titulo: 'Ready for Hire',
+      descricao:
+        'Você estará preparado para disputar vagas reais.'
+    },
+
+    personagem: {
+      nome: 'Career Hero',
+      sprite: "/animation/career-hero.json"
+    }
+  }
 ]

@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    scroll-behavior: auto; /* Lenis assume o controle do scroll suave */
+    scroll-behavior: auto; // Lenis assume o controle do scroll suave 
   }
 
   body {
@@ -26,7 +26,7 @@ export const GlobalStyle = createGlobalStyle`
     color: ${(p) => p.theme.colors.ink};
   }
 
-  /* Foco visível sempre — acessibilidade não é opcional */
+  /* Foco visível sempre */
   :focus-visible {
     outline: 2px solid ${(p) => p.theme.colors.signal};
     outline-offset: 4px;
@@ -45,10 +45,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   /*
-   * Estilo dos caracteres de ruído do efeito TextScramble (ver
-   * src/animations/textScramble.ts). Precisa ser global — não local a um
-   * styled-component — porque esses <span> são escritos direto via
-   * innerHTML, fora do controle do styled-components.
+   Estilo dos caracteres de ruído do efeito TextScramble 
+   (veja src/animations/textScramble.ts). Precisa ser global, não local a um
+   styled-component, porque esses <span> são escritos direto via
+   innerHTML, fora do controle do styled-components.
    */
   .scramble-noise {
     font-family: ${(p) => p.theme.font.mono};

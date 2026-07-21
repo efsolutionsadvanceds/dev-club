@@ -9,19 +9,6 @@ import { MatrixBackground } from '@/components/effects/MatrixBackground'
 
 const COMMAND = 'devclub iniciar --carreira'
 
-/**
- * Elemento de assinatura da página. Em vez de um headline estático, o
- * visitante vê o "sistema" digitando um comando e devolvendo o resultado
- * — que é o próprio headline de marketing, encenado como output real de
- * terminal. Isso conecta forma e conteúdo: o produto é "aprender a
- * programar", então a primeira coisa que a pessoa vê é código rodando.
- *
- * As classes (.hero-command, .hero-output etc.) são passadas via `className`
- * de propósito — o GSAP seleciona por className, não por ref individual,
- * porque `.hero-output-line` se repete 3x e seria verboso criar um ref
- * pra cada linha. Styled-components preserva className customizado mesmo
- * gerando sua própria classe hash junto.
- */
 const Section = styled.section`
   position: relative;
   min-height: 100vh;
@@ -72,11 +59,6 @@ const Tilde = styled.span`
   color: ${(p) => p.theme.colors.signal};
 `
 
-/**
- * Janela de terminal de verdade: barra de título com "semáforo" de botões
- * (padrão macOS), sombra flutuante e blur. É o que faz o hero parecer
- * "software rodando" em vez de "texto com fonte mono".
- */
 const TerminalCard = styled.div`
   border-radius: 12px;
   border: 1px solid ${(p) => p.theme.colors.inkLine};
@@ -126,13 +108,7 @@ const CommandText = styled.span`
   vertical-align: bottom;
 `
 
-/**
- * Antes de terminar de "digitar" o comando, o cursor fica sólido (comportamento
- * real de terminal escrevendo). Só começa a piscar quando `$blinking` é true
- * — ou seja, quando a digitação termina. Feito em CSS (@keyframes) e não em
- * GSAP porque é um loop infinito: rodar isso em JS pra sempre desperdiça
- * ciclo de CPU sem necessidade nenhuma.
- */
+
 const Cursor = styled.span<{ $blinking: boolean }>`
   display: inline-block;
   margin-left: 4px;
@@ -232,25 +208,6 @@ const Meta = styled.div`
 export function Hero() {
   const [typingDone, setTypingDone] = useState(false)
 
-  /**
-   * Tudo (incluindo o parallax do grid e o check de reduced-motion) mora
-   * dentro do MESMO gsap.context, criado uma única vez (deps: []).
-   *
-   * Por quê isso importa:
-   * 1. `reduce` é checado AQUI DENTRO, não no corpo do componente — se
-   *    estivesse fora, um `return` condicional antes do `useGsapContext`
-   *    pularia a chamada do hook em alguns renders e não em outros,
-   *    violando as Rules of Hooks (React quebra com "Rendered fewer
-   *    hooks than expected").
-   * 2. O `gsap.to('.hero-grid', ...)` do parallax também mora aqui dentro,
-   *    e não solto no corpo da função. Solto no corpo, ele rodaria de novo
-   *    a cada re-render (e o `setTypingDone` no onComplete do timeline
-   *    GARANTE que existe um re-render) — cada execução criaria um
-   *    ScrollTrigger novo, empilhado por cima do anterior, sem nunca
-   *    limpar os antigos. Aqui dentro, com deps: [], só roda uma vez —
-   *    e quando o componente desmonta, o ctx.revert() do hook mata tudo
-   *    junto (timeline + ScrollTrigger) de uma vez só.
-   */
   const scope = useGsapContext<HTMLDivElement>(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -281,11 +238,6 @@ export function Hero() {
       .to('.hero-cta', { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out' }, '-=0.2')
       .to('.hero-meta', { autoAlpha: 1, duration: 0.6 }, '-=0.3')
 
-    // Glitch periódico e infinito na palavra de destaque: rajada curta de
-    // 0.25s que se repete pra sempre, com 4s de pausa entre uma e outra.
-    // "Constante" aqui significa "nunca para de acontecer ao longo da vida
-    // da página" — não é tremor a cada frame, que tornaria a palavra
-    // ilegível e cansativa de olhar.
     gsap.timeline({ repeat: -1, repeatDelay: 4, delay: 2 }).to('.accent', {
       keyframes: {
         textShadow: [
@@ -299,9 +251,6 @@ export function Hero() {
       ease: 'none',
     })
 
-    // Parallax sutil do grid de fundo — só background-position, sem
-    // repaint pesado nem reflow, então é praticamente de graça em
-    // performance mesmo em aparelho fraco.
     gsap.to('.hero-grid', {
       backgroundPosition: '+=48px +=96px',
       ease: 'none',

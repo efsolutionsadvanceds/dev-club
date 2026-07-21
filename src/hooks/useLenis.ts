@@ -18,11 +18,10 @@ export function useLenis() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       touchMultiplier: 1.2,
     })
-
     // Sem isso, o ScrollTrigger não sabe que o Lenis moveu a página —
     // ele fica esperando o evento nativo de scroll do navegador, que o
-    // Lenis não necessariamente dispara na mesma cadência. Resultado:
-    // reveals disparando de forma inconsistente, dependendo da
+    // Lenis não necessariamente dispara na mesma cadência.
+    // Resultado: reveals disparando de forma inconsistente, dependendo da
     // velocidade do scroll no momento. Essa linha é o "elo" que faltava.
     lenis.on('scroll', ScrollTrigger.update)
 

@@ -18,11 +18,7 @@ const Section = styled.section`
   }
 `
 
-/**
- * Camada "aurora": dois blobs de luz borrada que derivam devagar pela
- * seção. Só anima `transform` (translate) — a única propriedade que o
- * navegador compõe direto na GPU sem recalcular layout ou repintar o blur.
- */
+
 const AuroraLayer = styled.div`
   position: absolute;
   inset: 0;
@@ -54,13 +50,6 @@ const BlobB = styled(Blob)`
   right: -12%;
 `
 
-/**
- * Camada "ticker": faixas de texto técnico deslizando sem parar, tipo
- * painel de LED — a mesma técnica de duas trilhas idênticas em loop que
- * já existe no marquee de `Empresas.tsx`, só que aqui em opacidade muito
- * baixa e atrás do conteúdo, pra dar o clima "telão passando" sem brigar
- * com a leitura do texto principal.
- */
 const TickerLayer = styled.div`
   position: absolute;
   inset: 0;
@@ -192,9 +181,6 @@ export function Sobre() {
       },
     })
 
-    // Métricas contam de 0 até o valor quando entram na tela. Lemos o
-    // alvo numérico real de um atributo (não fazemos parsing de texto
-    // formatado — evita bug de separador de milhar vs. decimal).
     document.querySelectorAll<HTMLElement>('.metric-value').forEach((el) => {
       const target = Number(el.dataset.target ?? 0)
       const decimals = Number(el.dataset.decimals ?? 0)
@@ -358,7 +344,7 @@ export function Sobre() {
           </Copy>
         </Grid>
 
-        <MetricsRow id="resultados">
+        <MetricsRow >
           {metricas.map((m) => (
             <div key={m.id} className="sobre-reveal">
               <MetricValue

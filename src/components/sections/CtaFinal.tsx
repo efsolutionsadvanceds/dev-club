@@ -68,9 +68,6 @@ const Sub = styled.p`
   color: ${(p) => withOpacity(p.theme.colors.paper, 0.6)};
 `
 
-/* Reprisa o visual do terminal do Hero (mesma linguagem), mas o conteúdo
-   é outro: aqui é o "deploy" da carreira terminando em sucesso — fecha o
-   loop narrativo que o Hero abriu. */
 const Terminal = styled.div`
   margin: 48px auto 0;
   max-width: 520px;
@@ -162,10 +159,6 @@ export function CtaFinal() {
       return
     }
 
-    // Coreografia em timeline única: título/tag entram, depois o log do
-    // terminal "digita" linha por linha, e só então o botão aparece com
-    // um leve "pop" elástico — o botão é literalmente a última coisa a
-    // se revelar, reforçando que ele é a consequência do deploy acima.
     const tl = gsap.timeline({
       scrollTrigger: { trigger: '.cta-reveal', start: 'top 85%' },
     })
@@ -241,7 +234,7 @@ export function CtaFinal() {
         </Terminal>
 
         <ButtonRow className="cta-button-pop">
-          <Button>Quero começar agora</Button>
+          <Button magnetic>Quero começar agora</Button>
         </ButtonRow>
       </Inner>
     </Section>

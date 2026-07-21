@@ -10,17 +10,6 @@ const Canvas = styled.canvas`
   pointer-events: none;
 `
 
-/**
- * Camada de fundo "Matrix rain". Só liga o motor Canvas quando:
- * - o usuário não pediu reduced-motion (checado uma vez, no mount)
- * - a seção está de fato visível na tela (IntersectionObserver) — não faz
- *   sentido gastar CPU animando um canvas fora do viewport
- * - a aba do navegador está em foco (visibilitychange) — mesma lógica,
- *   pausa quando ninguém está olhando
- *
- * `aria-hidden` porque é puramente decorativo — leitor de tela não deve
- * anunciar um <canvas> vazio de conteúdo semântico.
- */
 export function MatrixBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 

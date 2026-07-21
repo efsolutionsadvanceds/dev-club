@@ -32,14 +32,14 @@ const Bar = styled.header<{ $scrolled: boolean }>`
 
 const Row = styled(Container)`
   display: flex;
-  height: 80px;
+  height: 68px;
   align-items: center;
   justify-content: space-between;
 `
 
 const Logo = styled.a`
   font-family: ${(p) => p.theme.font.mono};
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: ${(p) => p.theme.colors.paper};
 
@@ -51,7 +51,7 @@ const Logo = styled.a`
 const Nav = styled.nav`
   display: none;
   align-items: center;
-  gap: 32px;
+  gap: 26px;
 
   @media (min-width: ${(p) => p.theme.breakpoint.md}) {
     display: flex;
@@ -59,6 +59,7 @@ const Nav = styled.nav`
 `
 
 const NavLink = styled.a`
+  cursor: pointer;
   font-family: ${(p) => p.theme.font.mono};
   font-size: 12px;
   text-transform: uppercase;
@@ -79,7 +80,7 @@ const NavButton = styled(Button)`
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
 
-  // Header ganha fundo sólido só depois que o usuário sai do hero —
+  // Header ganha fundo sólido só depois que o usuário sai do hero
   // no topo ele fica transparente pra não competir com a animação do terminal.
   useEffect(() => {
     function onScroll() {
@@ -97,11 +98,24 @@ export function Header() {
         </Logo>
 
         <Nav>
-          {NAV_ITEMS.map((item) => (
-            <NavLink key={item.href} href={item.href}>
-              {item.label}
-            </NavLink>
-          ))}
+        {NAV_ITEMS.map((item) => (
+  <NavLink
+    key={item.href}
+    href={item.href}
+    onClick={(e) => {
+      e.preventDefault()
+
+      document
+        .querySelector(item.href)
+        ?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
+    }}
+  >
+    {item.label}
+  </NavLink>
+))}
         </Nav>
 
         <NavButton

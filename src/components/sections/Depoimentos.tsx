@@ -29,9 +29,6 @@ const Section = styled.section`
   }
 `
 
-/* Brilho de fundo que respira devagar — dá profundidade sem roubar
-   atenção do conteúdo (opacidade nunca passa de 0.25). Já é neutralizado
-   automaticamente sob reduced-motion pela regra global em GlobalStyle.ts. */
 const AmbientBackgroundGlow = styled.div`
   position: absolute;
   top: 50%;
@@ -63,15 +60,6 @@ const Title = styled.h2`
   }
 `
 
-/**
- * `:has()` é o que faz o "foco automático": quando QUALQUER card dentro
- * dessa grid está em hover, os outros escurecem e desfocam — sem
- * JavaScript nenhum. Importante: só usa `opacity`/`filter` aqui, nunca
- * `transform` — o tilt 3D (useCardTilt) já escreve `transform` via GSAP
- * direto no elemento, e CSS externo nunca vence um inline style. Se
- * essa regra tentasse mexer em transform também, os dois sistemas
- * brigariam pela mesma propriedade.
- */
 const Grid = styled.div`
   margin-top: 64px;
   display: grid;
@@ -106,9 +94,6 @@ const Card = styled.article`
   will-change: transform;
   transition: opacity 400ms, filter 400ms, border-color 400ms, box-shadow 400ms;
 
-  /* Bisel de vidro: uma linha clara no topo simulando luz pegando a borda
-     superior do painel — é o detalhe que faz "vidro" parecer vidro em vez
-     de só um retângulo semi-transparente. */
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     inset 0 0 0 1px rgba(255, 255, 255, 0.03);
@@ -143,9 +128,6 @@ const Card = styled.article`
   }
 `
 
-/* Marca d'água editorial — aspas gigantes e quase invisíveis atrás do
-   texto, recurso clássico de página de imprensa da Apple/Tesla pra dar
-   peso "editorial" sem escrever mais nada. */
 const QuoteMark = styled.span`
   position: absolute;
   top: 8px;
@@ -195,8 +177,6 @@ const CargoRow = styled.div`
   font-family: ${(p) => p.theme.font.mono};
   font-size: 12px;
 
-  /* Usa o token do tema, não um valor solto — mantém consistência com o
-     resto do projeto, que nunca usa breakpoint "mágico". */
   @media (min-width: ${(p) => p.theme.breakpoint.sm}) {
     flex-direction: row;
     align-items: center;
@@ -267,13 +247,7 @@ const SalarioDepois = styled.span`
   }
 `
 
-/**
- * Cada card é seu próprio componente (não um `<Card>` direto dentro do
- * `.map()` do pai) por um motivo estrutural, não estético: `useCardTilt`
- * é um hook, e hooks não podem ser chamados dentro de loops/callbacks —
- * isso violaria as Rules of Hooks. Extraindo pra cá, cada instância desse
- * componente chama o hook uma vez, do jeito correto.
- */
+
 function DepoimentoCard({ depoimento }: { depoimento: Depoimento }) {
   const tiltRef = useCardTilt<HTMLDivElement>(8)
 
@@ -316,9 +290,6 @@ export function Depoimentos() {
 
     if (!grid || cards.length === 0) return
 
-    // Estado inicial "escondido" — aplicado uma vez, imediatamente. Isso é
-    // puro `gsap.set` (não depende de ScrollTrigger pra saber ONDE
-    // aplicar, só define o estado de partida).
     gsap.set(cards, {
       y: 70,
       scale: 0.92,
@@ -328,12 +299,6 @@ export function Depoimentos() {
       autoAlpha: 0,
     })
 
-    // A pergunta "esse elemento já entrou na tela?" agora é respondida
-    // pelo IntersectionObserver — API nativa do navegador, recalculada
-    // automaticamente a cada mudança de layout (fonte trocando, imagem
-    // carregando, o que for), sem precisar de refresh manual nem de
-    // sincronia com o Lenis. `rootMargin` com -20% na base aproxima o
-    // comportamento do antigo "top 80%" do ScrollTrigger.
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return
@@ -358,10 +323,6 @@ export function Depoimentos() {
 
     observer.observe(grid)
 
-    // Cleanup extra: desconecta o observer se o componente desmontar
-    // antes dele disparar (ex: navegação rápida). O gsap.context não
-    // sabe que esse observer existe, por isso o cleanup manual aqui —
-    // mesmo mecanismo já usado pro TextScramble em Sobre.tsx.
     return () => observer.disconnect()
   }, [])
 
@@ -369,7 +330,7 @@ export function Depoimentos() {
     <Section ref={scope} id="depoimentos">
       <AmbientBackgroundGlow />
 
-      <Container>
+      <Container id="resultados">
         <ContentWrapper>
           <SystemTag>// prod_output_validation</SystemTag>
           <Title>Gente que trocou de vida em produção, não em teoria.</Title>

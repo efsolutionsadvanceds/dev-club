@@ -7,7 +7,7 @@ import { gsap } from '@/lib/gsap'
  * e vazando memória (e, em StrictMode, duplica). O gsap.context() faz esse
  * escopo automaticamente — a gente só declara as animações dentro do
  * callback e o cleanup é de graça no return.
- *
+ 
  * O callback pode opcionalmente devolver uma função de limpeza extra —
  * usada só quando o componente cria algum recurso que o GSAP não conhece
  * (ex: uma classe própria com seu próprio requestAnimationFrame, como o
@@ -30,7 +30,6 @@ export function useGsapContext<T extends HTMLElement>(
       extraCleanup?.()
       ctx.revert()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps)
 
   return scope as RefObject<T>

@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { useGsapContext } from '@/hooks/useGsapContext'
-import { useMagnetic } from '@/hooks/useMagnetic'
 import { gsap } from '@/lib/gsap'
 import { empresas } from '@/lib/content'
 import type { Empresa } from '@/types/content'
@@ -16,11 +15,6 @@ const Section = styled.section`
   padding: 96px 0;
 `
 
-/* Spotlight autônomo: um brilho suave que percorre um caminho elíptico
-   sozinho, sem depender do cursor — dá uma "respiração" contínua pro
-   fundo da nuvem de empresas. Reaproveita a mesma técnica de variável CSS
-   do spotlight de Depoimentos.tsx, só que aqui quem move é o GSAP, não
-   o mouse. */
 const SpotlightLayer = styled.div`
   position: absolute;
   inset: 0;
@@ -58,9 +52,10 @@ const Chip = styled.div<{ $color: string }>`
   border: 1px solid ${(p) => p.theme.colors.inkLine};
   background: ${(p) => withOpacity(p.theme.colors.ink, 0.4)};
   will-change: transform;
-  transition: border-color 300ms, box-shadow 300ms, background 300ms;
+  transition: background 320ms ease, border-color 320ms ease, box-shadow 320ms ease, transform 320ms ease;
 
   &:hover {
+    transform: translateY(-2px);
     border-color: ${(p) => withOpacity(p.$color, 0.6)};
     background: ${(p) => withOpacity(p.theme.colors.ink, 0.7)};
     box-shadow: 0 12px 30px -10px ${(p) => withOpacity(p.$color, 0.35)};
@@ -94,36 +89,34 @@ const Nome = styled.span`
   color: ${(p) => withOpacity(p.theme.colors.paper, 0.85)};
 `
 
-/* A estatística fica "recolhida" (max-height: 0) e só aparece no hover —
-   é o "algo mais aprofundado" pedido: cada chip guarda uma informação
-   extra que só se revela quando você presta atenção nele. */
 const Stat = styled.span<{ $color: string }>`
   max-height: 0;
   overflow: hidden;
   opacity: 0;
+  transform: translateY(4px);
+
   font-family: ${(p) => p.theme.font.mono};
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: ${(p) => p.theme.letterSpacingTag};
   color: ${(p) => p.$color};
-  transition: max-height 300ms ease, opacity 300ms ease;
+
+  transition:
+    max-height .3s ease,
+    opacity .3s ease,
+    transform .3s ease;
 
   ${Chip}:hover & {
     max-height: 16px;
     opacity: 1;
+    transform: translateY(0);
   }
 `
 
-/**
- * Cada chip é seu próprio componente pelo mesmo motivo do DepoimentoCard
- * (ver Depoimentos.tsx): `useMagnetic` é um hook, e chamá-lo dentro do
- * `.map()` do pai quebraria as Rules of Hooks.
- */
 function EmpresaChip({ empresa }: { empresa: Empresa }) {
-  const ref = useMagnetic<HTMLDivElement>(0.25)
 
   return (
-    <Chip ref={ref} className="empresa-chip" $color={empresa.cor}>
+    <Chip className="empresa-chip" $color={empresa.cor}>
       <Avatar $color={empresa.cor}>{getInitials(empresa.nome)}</Avatar>
       <TextCol>
         <Nome>{empresa.nome}</Nome>
@@ -148,16 +141,12 @@ export function Empresas() {
       scrollTrigger: { trigger: '.empresa-chip', start: 'top 90%' },
     })
 
-    if (reduce) return // sem flutuação nem spotlight autônomo
+    if (reduce) return 
 
-    // Flutuação contínua e independente por chip — cada um com sua
-    // própria amplitude/duração/atraso aleatórios, pra não parecer uma
-    // onda sincronizada (que voltaria a parecer "uma linha se repetindo",
-    // exatamente o que você pediu pra evitar).
     gsap.utils.toArray<HTMLElement>('.empresa-chip').forEach((chip) => {
       gsap.to(chip, {
-        y: gsap.utils.random(-6, 6),
-        duration: gsap.utils.random(2.5, 4.5),
+        y: gsap.utils.random(-3, 3),
+        duration: gsap.utils.random(4, 6),
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut',
@@ -165,9 +154,6 @@ export function Empresas() {
       })
     })
 
-    // Spotlight autônomo: percorre um caminho elíptico contínuo, sozinho —
-    // não depende do cursor. É a "profundidade" constante que substitui
-    // a ideia de linha repetindo.
     const spotlightEl = document.querySelector<HTMLElement>('.empresas-spotlight')
     if (spotlightEl) {
       const spotlight = { angle: 0 }
